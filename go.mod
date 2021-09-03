@@ -1,5 +1,3 @@
-module github.com/woshidama323/golangpractice
+module github.com/woshidama323/LearningGolang
 
-go 1.15
-
-require github.com/vishvananda/netlink v1.1.0
+go 1.16

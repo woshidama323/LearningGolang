@@ -2,29 +2,19 @@ package main
 
 import (
 	"fmt"
-
 	"net"
+
+	"github.com/woshidama323/LearningGolang/patterns/options"
 )
 
 func main() {
 	fmt.Println("test the code")
-
-	// la := netlink.NewLinkAttrs()
-	// la.Name = "foo"
-	// mybridge := &netlink.Bridge{LinkAttrs: la}
-	// err := netlink.LinkAdd(mybridge)
-	// if err != nil  {
-	//     fmt.Printf("could not add %s: %v\n", la.Name, err)
-	// }
-	// link, err := netlink.LinkByName("lo0")
-	// if err != nil {
-	// 	fmt.Printf("could not get lo %v", err)
-	// }
-	// eth1, _ := netlink.AddrList(link, 2)
-	// fmt.Printf("eth1 is %v", eth1)
-
 	ips, _ := LocalIPv4s()
 	fmt.Printf("ips:%v", ips)
+
+	//这里就是使用了option的模式来设置一些struct 一些默认值设置在里面
+	helloperson := options.NewPerson("harry", options.Country("ChinaHello"))
+	fmt.Println("helloperson is:", helloperson)
 }
 
 func LocalIPv4s() ([]string, error) {
