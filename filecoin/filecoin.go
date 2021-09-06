@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"reflect"
 
 	"github.com/filecoin-project/go-jsonrpc"
 	"github.com/filecoin-project/lotus/api/v0api"
@@ -65,7 +66,7 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var FResp MinerInfo
+	var FResp interface{}
 	err = json.Unmarshal(body, &FResp)
 	if err != nil {
 		return nil, err
@@ -85,6 +86,8 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 
 	fmt.Printf("current result is :%v", FResp)
 	fmt.Printf("current result body is :%v", string(body))
+
+	Sum(string(body))
 	return FResp, nil
 }
 
@@ -121,6 +124,8 @@ func GetMinerAddressInfo(urlstr, address string) (interface{}, error) {
 
 }
 
+type ResType struct {
+}
 type MinerInfo struct {
 	Owner                      string
 	Worker                     string
@@ -134,3 +139,49 @@ type MinerInfo struct {
 	WindowPoStPartitionSectors uint64
 	ConsensusFaultElapsed      int
 }
+
+func Sum(in interface{}) (int64, error) {
+	res := int64(0)
+	v := reflect.ValueOf(in)
+	switch v.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int32, reflect.Int64:
+		res = v.Int()
+	case reflect.Slice, reflect.Array:
+		for i := 0; i < v.Len(); i++ {
+			sliceRes, err := Sum(v.Index(i).Interface())
+			if err != nil {
+				return 0, err
+			}
+			res = res + sliceRes
+		}
+	case reflect.Map:
+		for _, k := range v.MapKeys() {
+			mapRes, err := Sum(v.MapIndex(k).Interface())
+			if err != nil {
+				return 0, err
+			}
+			res = res + mapRes
+		}
+	default:
+		return 0, fmt.Errorf("input passed was invalid.")
+	}
+	return res, nil
+}
+
+// {
+//     "jsonrpc": "2.0",
+//     "result": {
+//         "Owner": "t03083",
+//         "Worker": "t03083",
+//         "NewWorker": "\u003cempty\u003e",
+//         "ControlAddresses": null,
+//         "WorkerChangeEpoch": -1,
+//         "PeerId": "12D3KooWAcpx2A7SHM5dHtw5oyVm3Xk9Cu74uNhVdG361nSnQvgS",
+//         "Multiaddrs": null,
+//         "WindowPoStProofType": 8,
+//         "SectorSize": 34359738368,
+//         "WindowPoStPartitionSectors": 2349,
+//         "ConsensusFaultElapsed": -1
+//     },
+//     "id": 1
+// }
