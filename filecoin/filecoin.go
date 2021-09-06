@@ -65,7 +65,7 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var FResp interface{}
+	var FResp MinerInfo
 	err = json.Unmarshal(body, &FResp)
 	if err != nil {
 		return nil, err
@@ -119,4 +119,18 @@ func GetMinerAddressInfo(urlstr, address string) (interface{}, error) {
 	}
 	return FResp, nil
 
+}
+
+type MinerInfo struct {
+	Owner                      string
+	Worker                     string
+	NewWorker                  string
+	ControlAddresses           []string
+	WorkerChangeEpoch          uint64
+	PeerId                     *string
+	Multiaddrs                 []string
+	WindowPoStProofType        int
+	SectorSize                 int
+	WindowPoStPartitionSectors uint64
+	ConsensusFaultElapsed      int
 }
