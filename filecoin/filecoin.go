@@ -88,13 +88,16 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 	return FResp, nil
 }
 
-func GetMinerAddressInfo(urlstr, minerid string) (interface{}, error) {
+func GetMinerAddressInfo(urlstr, address string) (interface{}, error) {
 
 	getAddresses := map[string]interface{}{
 		"jsonrpc": "2.0",
-		"method":  "Filecoin.ChainHead",
-		"params":  []interface{}{},
-		"id":      1,
+		"method":  "Filecoin.StateAccountKey",
+		"params": []interface{}{
+			address,
+			nil,
+		},
+		"id": 1,
 	}
 
 	// res := &HeadInfo{}

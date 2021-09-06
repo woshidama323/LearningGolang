@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/filecoin-project/go-address"
+	"github.com/filecoin-project/lotus/chain/actors/builtin/miner"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/woshidama323/LearningGolang/filecoin"
 	"github.com/woshidama323/LearningGolang/patterns/options"
@@ -115,8 +116,9 @@ var RawMethodCmd = &cli.Command{
 			minerID = c.String("minerid")
 		}
 
-		filecoin.GetMinerInfo(geturl, minerID)
-
+		out, _ := filecoin.GetMinerInfo(geturl, minerID)
+		test := out.(*miner.MinerInfo)
+		fmt.Println("test...", test)
 		return nil
 	},
 }
