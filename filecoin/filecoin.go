@@ -66,7 +66,7 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var FResp interface{}
+	var FResp ResultDataType
 	err = json.Unmarshal(body, &FResp)
 	if err != nil {
 		return nil, err
@@ -166,6 +166,24 @@ func Sum(in interface{}) (int64, error) {
 		return 0, fmt.Errorf("input passed was invalid.")
 	}
 	return res, nil
+}
+
+type ResultDataType struct {
+	JSONRpc string `json:"jsonrpc"`
+	Result  struct {
+		Owner                      string
+		Worker                     string
+		NewWorker                  string
+		ControlAddresses           []string
+		WorkerChangeEpoch          int64
+		PeerId                     string
+		Multiaddrs                 []string
+		WindowPoStProofType        int64
+		SectorSize                 int64
+		WindowPoStPartitionSectors int64
+		ConsensusFaultElapsed      int64
+	}
+	ID int64 `json:"id"`
 }
 
 // {

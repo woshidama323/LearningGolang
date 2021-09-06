@@ -119,6 +119,7 @@ var RawMethodCmd = &cli.Command{
 		out, _ := filecoin.GetMinerInfo(geturl, minerID)
 		test := out.(*miner.MinerInfo)
 		fmt.Println("test...", test)
+
 		return nil
 	},
 }
