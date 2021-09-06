@@ -46,8 +46,11 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 	getMinerInfo := map[string]interface{}{
 		"jsonrpc": "2.0",
 		"method":  "Filecoin.StateMinerInfo",
-		"params":  []interface{}{},
-		"id":      1,
+		"params": []interface{}{
+			minerid,
+			nil,
+		},
+		"id": 1,
 	}
 
 	// res := &HeadInfo{}
