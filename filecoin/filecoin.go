@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -79,7 +80,9 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 
 	// err = json.Unmarshal(_d, res)
 
-	return FResp, err
+	fmt.Printf("current result is :%v", FResp)
+	fmt.Printf("current result body is :%v", string(body))
+	return FResp, nil
 }
 
 func GetMinerAddressInfo(urlstr, minerid string) (interface{}, error) {
