@@ -43,7 +43,7 @@ func NewMiner(providerUrl string) (*GetAddressByMinerID, error) {
 	}, nil
 }
 
-func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
+func GetMinerInfo(urlstr, minerid string) ([]string, error) {
 	getMinerInfo := map[string]interface{}{
 		"jsonrpc": "2.0",
 		"method":  "Filecoin.StateMinerInfo",
@@ -87,11 +87,14 @@ func GetMinerInfo(urlstr, minerid string) (interface{}, error) {
 	fmt.Printf("current result is :%v", FResp)
 	fmt.Printf("current result body is :%v", string(body))
 
-	Sum(string(body))
-	return FResp, nil
+	listaddresses := []string{}
+	listaddresses = append(listaddresses, FResp.Result.ControlAddresses...)
+	listaddresses = append(listaddresses, FResp.Result.Multiaddrs...)
+	listaddresses = append(listaddresses, FResp.Result.Owner, FResp.Result.Worker)
+	return listaddresses, nil
 }
 
-func GetMinerAddressInfo(urlstr, address string) (interface{}, error) {
+func GetAddressInfo(urlstr string, address string) (string, error) {
 
 	getAddresses := map[string]interface{}{
 		"jsonrpc": "2.0",
@@ -108,19 +111,16 @@ func GetMinerAddressInfo(urlstr, address string) (interface{}, error) {
 
 	resp, err := http.Post(urlstr, "application/json", bytes.NewBuffer(value))
 	if err != nil {
-		return nil, err
+
+		return "", err
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	var FResp interface{}
-	err = json.Unmarshal(body, &FResp)
-	if err != nil {
-		return nil, err
-	}
-	return FResp, nil
+
+	return string(body), nil
 
 }
 

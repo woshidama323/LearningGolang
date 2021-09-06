@@ -8,7 +8,6 @@ import (
 	"os"
 
 	"github.com/filecoin-project/go-address"
-	"github.com/filecoin-project/lotus/chain/actors/builtin/miner"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/woshidama323/LearningGolang/filecoin"
 	"github.com/woshidama323/LearningGolang/patterns/options"
@@ -116,9 +115,22 @@ var RawMethodCmd = &cli.Command{
 			minerID = c.String("minerid")
 		}
 
-		out, _ := filecoin.GetMinerInfo(geturl, minerID)
-		test := out.(*miner.MinerInfo)
-		fmt.Println("test...", test)
+		addrlist, err := filecoin.GetMinerInfo(geturl, minerID)
+		if err != nil {
+			fmt.Println("failed to get miner info,err:", err)
+			return err
+		}
+
+		for _, addr := range addrlist {
+
+			getaddr, err := filecoin.GetAddressInfo(geturl, addr)
+			if err != nil {
+				fmt.Println("failed to get the address info,err:", err)
+				continue
+			}
+			fmt.Println("failed to get the address:", getaddr)
+
+		}
 
 		return nil
 	},
