@@ -128,7 +128,7 @@ var RawMethodCmd = &cli.Command{
 				fmt.Println("failed to get the address info,err:", err)
 				continue
 			}
-			fmt.Println("failed to get the address:", getaddr)
+			fmt.Println("get current addresslist :", getaddr)
 
 		}
 
