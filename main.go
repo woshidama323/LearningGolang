@@ -9,8 +9,10 @@ import (
 
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/types"
+	"github.com/multiformats/go-multiaddr"
 	"github.com/woshidama323/LearningGolang/filecoin"
 	"github.com/woshidama323/LearningGolang/patterns/options"
+	"github.com/woshidama323/LearningGolang/rpcserver"
 
 	cli "github.com/urfave/cli/v2"
 )
@@ -24,6 +26,7 @@ func main() {
 			filecoinCmd,
 			optionsCmd,
 			RawMethodCmd,
+			RPCServerTestCmd,
 		},
 	}
 
@@ -136,16 +139,39 @@ var RawMethodCmd = &cli.Command{
 	},
 }
 
-// func main() {
+var RPCServerTestCmd = &cli.Command{
+	Name:  "runrpc",
+	Usage: "hello rpc server",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:  "xxx",
+			Usage: "xxx",
+		},
+	},
+	Action: func(c *cli.Context) error {
 
-// 	fmt.Println("test the code")
-// 	ips, _ := LocalIPv4s()
-// 	fmt.Printf("ips:%v", ips)
+		fn := &rpcserver.ImplementFullNode{
+			Test: "helo",
+		}
+		wfn, err := rpcserver.FlutterHandler(fn)
+		if err != nil {
+			return err
+		}
+		am, err := multiaddr.NewMultiaddr("/ip4/127.0.0.1/tcp/11111")
+		if err != nil {
+			return err
+		}
 
-// 	//这里就是使用了option的模式来设置一些struct 一些默认值设置在里面
-// 	helloperson := options.NewPerson("harry", options.Country("ChinaHello"))
-// 	fmt.Println("helloperson is:", helloperson)
-// }
+		_, err = rpcserver.ServerRPC(wfn, "rpcserver", am)
+		if err != nil {
+			fmt.Println("failed to start rpc server:", err)
+			return err
+		}
+		// rpcStopper()
+		select {}
+		// return nil
+	},
+}
 
 // func LocalIPv4s() ([]string, error) {
 // 	var ips []string
