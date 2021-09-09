@@ -11,6 +11,7 @@ import (
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/multiformats/go-multiaddr"
 	"github.com/woshidama323/LearningGolang/filecoin"
+	"github.com/woshidama323/LearningGolang/markdown"
 	"github.com/woshidama323/LearningGolang/patterns/options"
 	"github.com/woshidama323/LearningGolang/rpcserver"
 
@@ -27,6 +28,7 @@ func main() {
 			optionsCmd,
 			RawMethodCmd,
 			RPCServerTestCmd,
+			MarkDownPocCmd,
 		},
 	}
 
@@ -170,6 +172,29 @@ var RPCServerTestCmd = &cli.Command{
 		// rpcStopper()
 		select {}
 		// return nil
+	},
+}
+
+var MarkDownPocCmd = &cli.Command{
+	Name:  "markdown",
+	Usage: "command test for generating markdown file",
+	Action: func(c *cli.Context) error {
+		// mk := markdown.NewMarkDownTemplate()
+		mk := markdown.NewMarkDownTemplate()
+		mk.Indicator = []string{
+			"昨日出块奖励",
+			"昨日出块奖励",
+			"昨日出块奖励",
+		}
+
+		mk.MinerList = []string{
+			"f02301",
+			"f02301",
+			"f02301",
+		}
+
+		mk.MinerFeeInfo()
+		return nil
 	},
 }
 

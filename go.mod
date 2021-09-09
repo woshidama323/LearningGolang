@@ -3,6 +3,7 @@ module github.com/woshidama323/LearningGolang
 go 1.16
 
 require (
+	github.com/atsushinee/go-markdown-generator v0.0.0-20191121114853-83f9e1f68504
 	github.com/filecoin-project/go-address v0.0.5
 	github.com/filecoin-project/go-jsonrpc v0.1.5
 	github.com/filecoin-project/lotus v1.11.1
