@@ -180,36 +180,15 @@ var MarkDownPocCmd = &cli.Command{
 	Usage: "command test for generating markdown file",
 	Action: func(c *cli.Context) error {
 		// mk := markdown.NewMarkDownTemplate()
-		mk := markdown.NewMarkDownTemplate()
-		mk.Indicator = []string{
-			"昨日出块奖励",
-			"昨日出块奖励",
-			"昨日出块奖励",
-		}
-
+		mk, _ := markdown.NewMarkDownTemplate()
 		mk.MinerList = []string{
 			"f02301",
-			"f02301",
-			"f02301",
+			"f03223",
+			"f0143858",
+			"f0240185",
 		}
 
 		mk.MinerFeeInfo()
 		return nil
 	},
 }
-
-// func LocalIPv4s() ([]string, error) {
-// 	var ips []string
-// 	addrs, err := net.InterfaceAddrs()
-// 	if err != nil {
-// 		return ips, err
-// 	}
-
-// 	for _, a := range addrs {
-// 		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
-// 			ips = append(ips, ipnet.IP.String())
-// 		}
-// 	}
-
-// 	return ips, nil
-// }
