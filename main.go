@@ -11,9 +11,11 @@ import (
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/multiformats/go-multiaddr"
 	"github.com/woshidama323/LearningGolang/filecoin"
+	"github.com/woshidama323/LearningGolang/htmltoimage"
 	"github.com/woshidama323/LearningGolang/markdown"
 	"github.com/woshidama323/LearningGolang/patterns/options"
 	"github.com/woshidama323/LearningGolang/rpcserver"
+	"github.com/woshidama323/LearningGolang/table"
 
 	cli "github.com/urfave/cli/v2"
 )
@@ -29,6 +31,7 @@ func main() {
 			RawMethodCmd,
 			RPCServerTestCmd,
 			MarkDownPocCmd,
+			Table2ImageCmd,
 		},
 	}
 
@@ -188,7 +191,23 @@ var MarkDownPocCmd = &cli.Command{
 			"f0240185",
 		}
 
+		mk.BillInfo = markdown.TestBillInfo
+		mk.CostInfo = markdown.Costinfo
+
 		mk.MinerFeeInfo()
+		return nil
+	},
+}
+
+var Table2ImageCmd = &cli.Command{
+	Name:  "table2image",
+	Usage: "generate table in image",
+	Action: func(c *cli.Context) error {
+		// ti := table2image.NewTableToImage()
+		// ti.CreateTableImage()
+		buf := table.Tabletest()
+		htmltoimage.TestHtmlToImage(buf.String(), "harry.png")
+
 		return nil
 	},
 }

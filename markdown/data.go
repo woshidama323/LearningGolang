@@ -77,7 +77,7 @@ type CostInfoDo struct {
 
 //python转 golang
 
-var costinfo = CostInfoDo{
+var Costinfo = CostInfoDo{
 	Id:                             11,
 	Miner:                          "f02301",
 	WindowedPostMinerFee:           0.12,
@@ -116,7 +116,7 @@ var costinfo = CostInfoDo{
 	CreateTime:                     time.Now(),
 }
 
-var testBillInfoDo = BillInfoDo{
+var TestBillInfo = BillInfoDo{
 	Id:              1,
 	Miner:           "f02301",
 	Type:            "",
@@ -130,3 +130,10 @@ var testBillInfoDo = BillInfoDo{
 	StatisticsDate:  "",
 	CreateTime:      time.Now(),
 }
+
+var TemplateData = `{
+	"测试代码": "这是什么",
+	"测试代码": "这是什么",
+	"测试代码": "这是什么",
+	"测试代码": "这是什么",
+}`

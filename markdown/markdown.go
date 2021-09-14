@@ -9,7 +9,10 @@ import (
 )
 
 type MarkDownTemplate struct {
-	Doc       *doc.MarkDownDoc
+	Doc *doc.MarkDownDoc
+
+	CostInfo  CostInfoDo
+	BillInfo  BillInfoDo
 	MinerList []string
 	Indicator []string
 	MinerMap  map[string]map[string]string //miner-> indicator -> 具体数值
@@ -80,7 +83,6 @@ func NewMarkDownTemplate() (*MarkDownTemplate, error) {
 func (Mt *MarkDownTemplate) MinerFeeInfo() string {
 
 	book := Mt.Doc
-	//
 	book.WriteTitle("数据统计时间:", doc.LevelTitle).
 		WriteLines(2)
 
@@ -111,4 +113,8 @@ func (Mt *MarkDownTemplate) MinerFeeInfo() string {
 	}
 
 	return book.String()
+}
+
+func (Mt *MarkDownTemplate) CalculateOrderInfo() {
+
 }
