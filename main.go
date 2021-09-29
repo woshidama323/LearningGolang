@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"time"
 
 	"log"
 	"os"
@@ -10,12 +12,20 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/multiformats/go-multiaddr"
+	"github.com/woshidama323/LearningGolang/customMarshal"
 	"github.com/woshidama323/LearningGolang/filecoin"
 	"github.com/woshidama323/LearningGolang/htmltoimage"
+	"github.com/woshidama323/LearningGolang/learns3"
 	"github.com/woshidama323/LearningGolang/markdown"
+
+	// "github.com/woshidama323/LearningGolang/output"
+	"github.com/woshidama323/LearningGolang/ascii"
+	"github.com/woshidama323/LearningGolang/packagetest"
 	"github.com/woshidama323/LearningGolang/patterns/options"
+	"github.com/woshidama323/LearningGolang/reflectpractice"
 	"github.com/woshidama323/LearningGolang/rpcserver"
 	"github.com/woshidama323/LearningGolang/table"
+	"github.com/woshidama323/LearningGolang/timepractice"
 
 	cli "github.com/urfave/cli/v2"
 )
@@ -32,6 +42,12 @@ func main() {
 			RPCServerTestCmd,
 			MarkDownPocCmd,
 			Table2ImageCmd,
+			reflectCmd,
+			s3Cmd,
+			excelCmd,
+			timeCmd,
+			jsonCmd,
+			asciiCmd,
 		},
 	}
 
@@ -205,9 +221,93 @@ var Table2ImageCmd = &cli.Command{
 	Action: func(c *cli.Context) error {
 		// ti := table2image.NewTableToImage()
 		// ti.CreateTableImage()
-		buf := table.Tabletest()
-		htmltoimage.TestHtmlToImage(buf.String(), "harry.png")
 
+		//0914
+		buf := table.Tabletest()
+		htmltoimage.TestHtmlToImage(buf.Bytes(), "harry.png")
+		// content := "![test](https://raw.githubusercontent.com/woshidama323/LearningGolang/de8f78453a9b1d2cd4f139b292093664b3b0bf1d/testme.png)"
+		// dingtalk.SendToDingTalkMarkDownMsg(content)
+
+		//尝试直接用html模板的方式进行
+		// bufOut := htmltoimage.TestTemplateForTable()
+		// htmltoimage.TestHtmlToImage(bufOut.Bytes(), "templatemethod.png")
+
+		return nil
+	},
+}
+
+var reflectCmd = &cli.Command{
+	Name:  "reflecttest",
+	Usage: "know how reflect work",
+	Action: func(c *cli.Context) error {
+		reflectpractice.TestGetField()
+		return nil
+	},
+}
+
+var s3Cmd = &cli.Command{
+	Name:  "s3list",
+	Usage: "know how reflect work",
+	Action: func(c *cli.Context) error {
+		learns3.TestS3ListBucket()
+		return nil
+	},
+}
+
+var excelCmd = &cli.Command{
+	Name:  "exceltest",
+	Usage: "take exceltest code practice",
+	Action: func(c *cli.Context) error {
+		// output.TestWriteExcel()
+		// output.TestReadExcel()
+		// teststr := "F02301"
+		// strings.ToLower(teststr)
+
+		packagetest.TestPackagetest()
+		return nil
+	},
+}
+
+var timeCmd = &cli.Command{
+	Name:  "timecmd",
+	Usage: "command for test time",
+	Action: func(c *cli.Context) error {
+
+		timepractice.TestTime()
+		return nil
+	},
+}
+
+var jsonCmd = &cli.Command{
+	Name:  "jsoncustom",
+	Usage: "json custom",
+	Action: func(c *cli.Context) error {
+
+		why := customMarshal.TestJson{
+			Testitme: customMarshal.UnixTimestamp(time.Now()),
+		}
+
+		testbytes, err := json.Marshal(why)
+		if err != nil {
+			fmt.Printf("marshal failed err:%v", err)
+			return err
+		}
+
+		var j customMarshal.TestJson
+		err = json.Unmarshal(testbytes, &j)
+		if err != nil {
+			fmt.Printf("Unmarshal failed err:%v", err)
+			return err
+		}
+		return nil
+	},
+}
+
+var asciiCmd = &cli.Command{
+	Name:  "asciitest",
+	Usage: "asciitest",
+	Action: func(c *cli.Context) error {
+		ascii.TestAscii()
 		return nil
 	},
 }

@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	FilecoinLocalGroup = ""
-	FilcoinTestGroup   = ""
+	FilecoinLocalGroup = "https://oapi.dingtalk.com/robot/send?access_token=56155f0e75d5a64116f03272eddfc92fd1f5c9ddc73eb9338b1927726ef19ec8"
+	FilcoinTestGroup   = "https://oapi.dingtalk.com/robot/send?access_token=e237d0b0cf64bedb7040d0ec431ff56842276dc84997ba1f55befb16f0c84ed9"
 )
 
 type DingTalkTextMsg struct {
@@ -44,26 +44,13 @@ type DingTalkImageMsg struct {
 }
 
 func SendToDingTalkTextMsg(input string) error {
-	//
-	// var jsonData = []byte(`{
-	// 	"msgtype": "text",
-	// 	"text": {
-	// 		"content":"testrobot hello bot"
-	// 	}
-	// }`)
-	var jsonData = DingTalkStruct{
-		MsgType: "markdown",
-		MarkDown: map[string]interface{}{
-			"title": "robot",
+
+	var jsonData = DingTalkTextMsg{
+		MsgType: "text",
+		Text: map[string]interface{}{
+			"content": "robot",
 		},
 	}
-
-	// var jsonData = DingTalkTextMsg{
-	// 	MsgType: "text",
-	// 	Text: map[string]interface{}{
-	// 		"content": input,
-	// 	},
-	// }
 
 	SendPostRequest(jsonData)
 	return nil
@@ -71,20 +58,13 @@ func SendToDingTalkTextMsg(input string) error {
 
 func SendToDingTalkMarkDownMsg(input string) error {
 
-	var jsonData = DingTalkStruct{
+	var jsonData = DingTalkMarkDownMsg{
 		MsgType: "markdown",
 		MarkDown: map[string]interface{}{
 			"title": "robot",
+			"text":  input,
 		},
 	}
-
-	// var jsonData = DingTalkTextMsg{
-	// 	MsgType: "text",
-	// 	Text: map[string]interface{}{
-	// 		"content": input,
-	// 	},
-	// }
-
 	SendPostRequest(jsonData)
 	return nil
 }

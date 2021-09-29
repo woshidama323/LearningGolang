@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>miner每日数据报表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/assets/css/tachyons.css">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+        }
+        th {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<main class="flex flex-column min-vh-100"><!-- use flex to separate the layouts into diff sections. -->
+    <header class="w-100">
+        <div class="w-30 dib bg-washed-blue">
+            <a class="f1 fw3 fw6-ns hover-blue link pointer black-80 dib ph3">miner每日数据报表</a>
+        </div><div class="w-70 dib">
+    </div>
+        </div>
+    </header>
+    <section class="flex-auto flex flex-column flex-row-ns">
+        <DIV class="pv4 pv2-ns ph2 bg-light-gray"  style="background-image: linear-gradient(to right, rgba(30, 75, 115, 1), rgba(255, 255, 255, 0)">
+            <blockquote class="lh-copy">
+                <table style="width: 100%">
+
+                    <!-- Table header -->
+
+                    <thead>
+                    <tr>
+                        <th scope="col">指标/MinerID</th>
+                        <th scope="col">f02301</th>
+                        <th scope="col">f03223</th>
+                        <th scope="col">f0143858</th>
+                        <th scope="col">f0240185</th>
+                    </tr>
+                    </thead>
+
+                    <!-- Table footer -->
+
+                    <tfoot>
+                    <tr>
+                        <td>{{.CreateTime}}</td>
+                    </tr>
+                    </tfoot>
+
+                    <!-- Table body -->
+
+                    <tbody>
+                    {{ range .IndicatorInfo }}
+                    <tr>
+                        <td>{{ .Indicator }}</td>
+                        <td>{{ .F02301 }}</td>
+                        <td>{{ .F03223 }}</td>
+                        <td>{{ .F0143858 }}</td>
+                        <td>{{ .F0240185 }}</td>
+                    </tr>
+                    {{ end }}
+                    </tbody>
+
+                </table>
+            </blockquote>
+
+        </div>
+    </section>
+    <footer class="bg-light-green pa4 tc">
+        <span class="f6">&copy; topblocks</span>
+    </footer>
+</main>
+</body>
+</html>

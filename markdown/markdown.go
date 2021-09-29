@@ -115,6 +115,11 @@ func (Mt *MarkDownTemplate) MinerFeeInfo() string {
 	return book.String()
 }
 
+//
 func (Mt *MarkDownTemplate) CalculateOrderInfo() {
 
+	//数据库中按照时间去查
+	// Mt.MinerMap["f02301"]["昨日出块奖励"] =
+
+	// 昨日出块奖励
 }
