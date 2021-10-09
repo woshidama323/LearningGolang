@@ -48,6 +48,7 @@ func main() {
 			timeCmd,
 			jsonCmd,
 			asciiCmd,
+			loginCmd,
 		},
 	}
 
@@ -308,6 +309,15 @@ var asciiCmd = &cli.Command{
 	Usage: "asciitest",
 	Action: func(c *cli.Context) error {
 		ascii.TestAscii()
+		return nil
+	},
+}
+
+var loginCmd = &cli.Command{
+	Name:  "login",
+	Usage: "login",
+	Action: func(c *cli.Context) error {
+		systemmonitor.TestSsh()
 		return nil
 	},
 }

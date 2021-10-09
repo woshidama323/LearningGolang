@@ -7,7 +7,7 @@ import (
 
 func TestTime() {
 
-	//通过时间 转化成时间
+	//通过通过高度转化成时间
 	// x := 48
 	initHeight := 43
 	stardDay, err := time.Parse(time.RFC3339, "2020-08-25T06:21:30+08:00")
