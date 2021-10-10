@@ -28,6 +28,7 @@ import (
 	"github.com/woshidama323/LearningGolang/timepractice"
 
 	cli "github.com/urfave/cli/v2"
+	"github.com/woshidama323/LearningGolang/kafka"
 )
 
 func main() {
@@ -48,7 +49,11 @@ func main() {
 			timeCmd,
 			jsonCmd,
 			asciiCmd,
+<<<<<<< Updated upstream
 			loginCmd,
+=======
+			kafkaCmd,
+>>>>>>> Stashed changes
 		},
 	}
 
@@ -313,11 +318,22 @@ var asciiCmd = &cli.Command{
 	},
 }
 
+
 var loginCmd = &cli.Command{
 	Name:  "login",
 	Usage: "login",
 	Action: func(c *cli.Context) error {
 		systemmonitor.TestSsh()
+		return nil
+	},
+}
+
+var kafkaCmd = &cli.Command{
+	Name:  "kafka",
+	Usage: "kafka cmd",
+	Action: func(c *cli.Context) error {
+		kafka.TestKafka()
+
 		return nil
 	},
 }
