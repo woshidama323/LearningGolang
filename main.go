@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net"
 	"time"
 
 	"log"
@@ -28,7 +29,10 @@ import (
 	"github.com/woshidama323/LearningGolang/timepractice"
 
 	cli "github.com/urfave/cli/v2"
+	"github.com/woshidama323/LearningGolang/grpcserver"
 	"github.com/woshidama323/LearningGolang/kafka"
+	"github.com/woshidama323/LearningGolang/systemmonitor"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -49,11 +53,9 @@ func main() {
 			timeCmd,
 			jsonCmd,
 			asciiCmd,
-<<<<<<< Updated upstream
-			loginCmd,
-=======
+			// loginCmd,
 			kafkaCmd,
->>>>>>> Stashed changes
+			grpcServerCmd,
 		},
 	}
 
@@ -318,21 +320,55 @@ var asciiCmd = &cli.Command{
 	},
 }
 
-
-var loginCmd = &cli.Command{
-	Name:  "login",
-	Usage: "login",
-	Action: func(c *cli.Context) error {
-		systemmonitor.TestSsh()
-		return nil
-	},
-}
+// var loginCmd = &cli.Command{
+// 	Name:  "login",
+// 	Usage: "login",
+// 	Action: func(c *cli.Context) error {
+// 		systemmonitor.TestSsh()
+// 		return nil
+// 	},
+// }
 
 var kafkaCmd = &cli.Command{
 	Name:  "kafka",
 	Usage: "kafka cmd",
 	Action: func(c *cli.Context) error {
 		kafka.TestKafka()
+
+		return nil
+	},
+}
+
+var grpcServerCmd = &cli.Command{
+	Name:  "grpc",
+	Usage: "grpc cmd",
+	Flags: []cli.Flag{
+		&cli.BoolFlag{
+			Name:  "clienttest",
+			Usage: "client test",
+			Value: false,
+		},
+	},
+	Action: func(c *cli.Context) error {
+
+		if c.IsSet("clienttest") {
+			systemmonitor.TestServer()
+			return nil
+		}
+
+		fmt.Println("Welcome to streaming HW monitoring")
+		// Setup a tcp connection to port 7777
+		lis, err := net.Listen("tcp", ":7777")
+		if err != nil {
+			panic(err)
+		}
+
+		gRPCserver := grpc.NewServer()
+		s := &systemmonitor.Server{}
+
+		grpcserver.RegisterHardwareMonitorServer(gRPCserver, s)
+
+		gRPCserver.Serve(lis)
 
 		return nil
 	},
