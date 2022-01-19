@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"runtime/debug"
+	"sync"
 	"time"
 
 	"log"
 	"os"
+	"reflect"
 
 	// "github.com/woshidama323/LearningGolang/output"
 
@@ -28,12 +31,14 @@ func main() {
 			// s3Cmd,
 			// excelCmd,
 			// timeCmd,
+			fortestCmd,
 			// jsonCmd,
 			// asciiCmd,
 			// // loginCmd,
 			// kafkaCmd,
 			// grpcServerCmd,
-			timeConvertCmd,
+			// timeConvertCmd,
+			// golangRuntimeCmd,
 		},
 	}
 
@@ -254,16 +259,33 @@ func main() {
 // 	},
 // }
 
-// var timeCmd = &cli.Command{
-// 	Name:  "timecmd",
-// 	Usage: "command for test time",
-// 	Action: func(c *cli.Context) error {
+var timeCmd = &cli.Command{
+	Name:  "timecmd",
+	Usage: "command for test time",
+	Action: func(c *cli.Context) error {
 
-// 		timepractice.TestTime()
-// 		return nil
-// 	},
-// }
+		// timepractice.TestTime()
+		dateT := time.Now().Format("01")
+		fmt.Println("dateT:",reflect.TypeOf(dateT))
+		fmt.Println("dateT:",dateT)
+		return nil
+	},
+}
 
+
+var fortestCmd = &cli.Command{
+	Name:  "fortestcmd",
+	Usage: "command for test time",
+	Action: func(c *cli.Context) error {
+
+		slist := []int{11,22,33,44,55}
+		for _,iv:= range slist{
+			// 
+			fmt.Println("slit:",iv)
+		}
+		return nil
+	},
+}
 // var jsonCmd = &cli.Command{
 // 	Name:  "jsoncustom",
 // 	Usage: "json custom",
@@ -386,6 +408,32 @@ var timeConvertCmd = &cli.Command{
 		afteradd.After(myDate)
 		fmt.Println("Just The Date:\t\t", afteradd.Format("2006-01-02"))
 		fmt.Println("compare result :\t\t", afteradd.After(myDate))
+		return nil
+	},
+}
+
+var golangRuntimeCmd = &cli.Command{
+	Name:  "runtime",
+	Usage: "runtime check...",
+	Action: func(c *cli.Context) error {
+		// debug.PrintStack()
+		stackout := debug.Stack()
+		fmt.Println("...", string(stackout))
+
+		// time.Sleep(10 * time.Second)
+
+		var wg sync.WaitGroup
+
+		for i := 1; i < 5; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				fmt.Println("......")
+				time.Sleep(10 * time.Second)
+			}()
+		}
+		wg.Wait()
+
 		return nil
 	},
 }
