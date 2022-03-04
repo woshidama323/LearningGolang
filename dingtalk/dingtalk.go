@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	FilecoinLocalGroup = "https://oapi.dingtalk.com/robot/send?access_token=56155f0e75d5a64116f03272eddfc92fd1f5c9ddc73eb9338b1927726ef19ec8"
-	FilcoinTestGroup   = "https://oapi.dingtalk.com/robot/send?access_token=e237d0b0cf64bedb7040d0ec431ff56842276dc84997ba1f55befb16f0c84ed9"
+	FilecoinLocalGroup = "https://oapi.dingtalk.com/robot/send?access_token="
+	FilcoinTestGroup   = "https://oapi.dingtalk.com/robot/send?access_token="
 )
 
 type DingTalkTextMsg struct {
