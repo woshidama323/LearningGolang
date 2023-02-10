@@ -9,7 +9,11 @@ import (
 	"net/http"
 
 	"github.com/filecoin-project/go-jsonrpc"
+	lotusbig "github.com/filecoin-project/go-state-types/big"
 	"github.com/filecoin-project/lotus/api/v0api"
+	"github.com/filecoin-project/lotus/chain/types"
+	builtin2 "github.com/filecoin-project/specs-actors/v7/actors/builtin"
+	"github.com/urfave/cli"
 )
 
 type GetAddressByMinerID struct {
@@ -155,4 +159,46 @@ type ResultDataType struct {
 		ConsensusFaultElapsed      int64
 	}
 	ID int64 `json:"id"`
+}
+
+//test wallet
+var walletCmd = &cli.Command{
+	Name:  "wallet",
+	Usage: "wallet operating",
+	Action: func(c *cli.Context) error {
+
+		// filecoinwallet.CreateWallet()
+		// actor.TestActor()
+
+		type Version uint32
+		major := 1
+		minor := 3
+		patch := 0
+		x := Version(uint32(major)<<16 | uint32(minor)<<8 | uint32(patch))
+		fmt.Println("....", x)
+
+		v := uint32(x)
+
+		// major := (v & majorOnlyMask) >> 16)
+		fmt.Println("major....", (v&majorOnlyMask)>>16)
+
+		//测算cid的创建过程
+
+		m := &types.Message{
+			To:    builtin2.StoragePowerActorAddr,
+			From:  builtin2.SystemActorAddr,
+			Nonce: 34,
+			Value: lotusbig.Zero(),
+
+			GasLimit:   123,
+			GasFeeCap:  lotusbig.NewInt(234),
+			GasPremium: lotusbig.NewInt(234),
+
+			Method: 6,
+			Params: []byte("hai"),
+		}
+
+		fmt.Printf("current cid: %+v", m.Cid().String())
+		return nil
+	},
 }
